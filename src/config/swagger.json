@@ -1,0 +1,226 @@
+﻿{
+    "title": "Invoices Builder Api Documentation",
+    "description": "Invoices Builder MEAN Stack App Api Documentation .",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+        "name": "API Support",
+        "url": "http://www.swagger.io/support",
+        "email": "support@swagger.io"
+    },
+    "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.0",
+    "host": "localhost:3000",
+    "basePath": "/api",
+    "tags": [{
+        "name": "Invoices",
+        "description": "Api for Invoice"
+    }],
+    "schemes": [
+        "http"
+    ],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths": {
+        "/invoices": {
+            "post": {
+                "tags": [
+                    "Invoices"
+                ],
+                "summary": "Create new Invoice",
+                "description": "Create new Invoice in the App",
+                "parameters": [{
+                    "name": "invoice",
+                    "description": "Invoice Body",
+                    "in": "body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#definitions/Invoice"
+                    }
+                }],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "new invoice created",
+                        "schema": {
+                            "$ref": "#definitions/Invoice"
+                        }
+                    }
+
+                }
+            },
+            "get": {
+                "tags": [
+                    "Invoices"
+                ],
+                "parameters": [{
+                        "name": "page",
+                        "type": "integer",
+                        "description": "Number of page",
+                        "in": "query"
+                    },
+                    {
+                        "name": "perPage",
+                        "type": "integer",
+                        "description": "Limit for page",
+                        "in": "query"
+                    }
+                ],
+                "summary": "Find all invoices",
+                "description": "All",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "$ref": "#definitions/Invoices"
+                        }
+                    }
+
+                }
+            }
+        },
+        "/invoices/{id}": {
+            "parameters": [{
+                "name": "id",
+                "in": "path",
+                "description": "Id of Invoice",
+                "type": "string"
+            }],
+            "put": {
+                "tags": [
+                    "Invoices"
+                ],
+                "summary": "Update an Invoice",
+                "description": "Update an Invoice in the App",
+                "parameters": [{
+                    "name": "invoice",
+                    "description": "Invoice Body",
+                    "in": "body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#definitions/UpdateInvoice"
+                    }
+                }],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "new invoice is updated",
+                        "schema": {
+                            "$ref": "#definitions/Invoice"
+                        }
+                    }
+
+                }
+            },
+            "get": {
+                "tags": ["Invoices"],
+                "description": "Find Invoice by Id",
+                "responses": {
+                    "200": {
+                        "description": "Invoice has been found",
+                        "schema": {
+                            "$ref": "#definitions/Invoice"
+                        }
+                    }
+
+                },
+                "summary": "Find single invoice"
+            },
+            "delete": {
+                "tags": ["Invoices"],
+                "description": "Delete Invoice by Id",
+                "responses": {
+                    "200": {
+                        "description": "Invoice has been deleted",
+                        "schema": {
+                            "$ref": "#definitions/Invoice"
+                        }
+                    }
+
+                },
+                "summary": "Delete single invoice"
+            }
+        }
+    },
+    "definitions": {
+        "Invoice": {
+            "required": ["item, qty, date, due"],
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "uniqueItems": "true"
+                },
+                "item": {
+                    "type": "string"
+                },
+                "qty": {
+                    "type": "number"
+                },
+                "rate": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "tax": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "due": {
+                    "type": "string",
+                    "format": "date"
+                }
+            }
+        },
+        "Invoices": {
+            "properties": {
+                "docs": {
+                    "type": "array",
+                    "$ref": "#definitions/Invoice"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "pages": {
+                    "type": "integer"
+                },
+                "limit": {
+                    "type": "integer"
+                }
+            }
+        },
+        "UpdateInvoice": {
+            "properties": {
+                "item": {
+                    "type": "string"
+                },
+                "qty": {
+                    "type": "number"
+                },
+                "rate": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "tax": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "due": {
+                    "type": "string",
+                    "format": "date"
+                }
+            }
+        }
+    }
+}
