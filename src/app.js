@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 import logger from 'morgan';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
-import { router } from './config/routes';
 import swaggerDocument from './config/swagger.json';
+import { restRouter } from './api';
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/invoice-builder');
@@ -25,7 +25,7 @@ app.use(
     explorer: true,
   })
 );
-app.use('/api', router);
+app.use('/api', restRouter);
 app.use((req, res, next) => {
   const error = new Error('Not found');
   error.status = 404;

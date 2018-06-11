@@ -1,6 +1,6 @@
 ﻿import Joi from 'joi';
 import HttpStatus from 'http-status-codes';
-import Invoice from '../models/invoice.model';
+import Invoice from './invoice.model';
 
 export default {
   findAll(req, res, next) {
@@ -8,6 +8,7 @@ export default {
     const options = {
       page: parseInt(page, 10),
       limit: parseInt(perPage, 10),
+      populate: 'client',
     };
     const query = {};
     if (filter) {
@@ -56,6 +57,7 @@ export default {
     const schema = Joi.object().keys({
       item: Joi.string().required(),
       date: Joi.date().required(),
+      client: Joi.string().required(),
       due: Joi.date().required(),
       qty: Joi.number()
         .integer()
@@ -76,6 +78,7 @@ export default {
     const schema = Joi.object().keys({
       item: Joi.string().optional(),
       date: Joi.date().optional(),
+      client: Joi.string().optional(),
       due: Joi.date().optional(),
       qty: Joi.number()
         .integer()
