@@ -66,6 +66,24 @@
                         "type": "integer",
                         "description": "Limit for page",
                         "in": "query"
+                    },
+                    {
+                        "name": "filter",
+                        "type": "string",
+                        "description": "Search string",
+                        "in": "query"
+                    },
+                    {
+                        "name": "sortField",
+                        "type": "string",
+                        "description": "Field to sort",
+                        "in": "query"
+                    },
+                    {
+                        "name": "sortDir",
+                        "type": "string",
+                        "description": "Direction of sorting",
+                        "in": "query"
                     }
                 ],
                 "summary": "Find all invoices",
