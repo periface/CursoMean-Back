@@ -4,23 +4,31 @@ import bcryptjs from 'bcryptjs';
 
 const { Schema } = mongoose;
 const UserSchema = new Schema({
-  email: {
-    type: String,
-    required: true,
-    lowercase: true,
-    unique: true,
+  local: {
+    email: {
+      type: String,
+      required: true,
+      lowercase: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
-  password: {
-    type: String,
-    required: true,
+  google: {
+    email: String,
+    id: String,
+    displayName: String,
+    token: String,
   },
 });
-UserSchema.pre('save', async function() {
-  if (this.isModified('password') || this.isNew) {
-    const salt = await bcryptjs.genSalt();
-    const hash = await bcryptjs.hash(this.password, salt);
-    this.password = hash;
-  }
-});
+// UserSchema.pre('save', async function() {
+//   if (this.isModified('password') || this.isNew) {
+//     const salt = await bcryptjs.genSalt();
+//     const hash = await bcryptjs.hash(this.password, salt);
+//     this.password = hash;
+//   }
+// });
 // ClientSchema.plugin(mongoosePaginate);
 export default mongoose.model('User', UserSchema);

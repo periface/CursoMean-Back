@@ -3,8 +3,10 @@ import logger from 'morgan';
 import cors from 'cors';
 import passport from 'passport';
 import session from 'express-session';
+
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../../config/swagger.json';
+import User from '../resources/user/user.model';
 import { configureJWTStrategy } from './passport-jwt';
 import { configureGoogleStrategy } from './passport-google';
 import { devConfig } from '../../config/env/development';
@@ -36,10 +38,12 @@ export const setGlobalMiddleware = app => {
   //   })
   // );
   passport.serializeUser((user, done) => {
-    done(null, user.id);
+    done(null, user._id);
   });
   passport.deserializeUser((id, done) => {
-    done(null, { id: 'asdf' });
+    User.findById(id, (err, user) => {
+      done(null, user);
+    });
   });
   app.use(
     '/api-docs',
