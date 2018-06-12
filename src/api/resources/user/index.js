@@ -1,1 +1,1 @@
-﻿export * from './user.router';
+﻿export { userRouter } from './user.router';
