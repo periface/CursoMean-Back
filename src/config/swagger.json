@@ -21,6 +21,10 @@
         {
             "name": "Clients",
             "description": "Client object"
+        },
+        {
+            "name": "Users",
+            "description": "User object"
         }
     ],
     "schemes": [
@@ -29,7 +33,66 @@
     "consumes": ["application/json"],
     "produces": ["application/json"],
     "paths": {
+        "/users/signup": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Create new Account",
+                "description": "Creates a new user",
+                "parameters": [{
+                    "name": "User",
+                    "in": "body",
+                    "description": "User to create",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#definitions/User"
+                    }
+                }],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "new user created",
+                        "schema": {
+                            "$ref": "#definitions/User"
+                        }
+
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Loggin to the app",
+                "description": "Loggin to the app",
+                "parameters": [{
+                    "name": "User",
+                    "in": "body",
+                    "description": "User to log",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#definitions/User"
+                    }
+                }],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "Logged successfully",
+                        "schema": {
+                            "$ref": "#definitions/LoginResponse"
+                        }
+
+                    }
+                }
+            }
+        },
         "/clients": {
+            "parameters": [{
+                "name": "authorization",
+                "in": "header",
+                "description": "Access token to authorize the user",
+                "required": true,
+                "type": "string"
+            }],
             "post": {
                 "tags": ["Clients"],
                 "summary": "Client to create",
@@ -77,6 +140,12 @@
                 "in": "path",
                 "description": "Id of Client",
                 "type": "string"
+            }, {
+                "name": "authorization",
+                "in": "header",
+                "description": "Access token to authorize the user",
+                "required": true,
+                "type": "string"
             }],
             "put": {
                 "tags": [
@@ -114,7 +183,6 @@
                             "$ref": "#definitions/Client"
                         }
                     }
-
                 },
                 "summary": "Find single Client"
             },
@@ -134,6 +202,13 @@
             }
         },
         "/invoices": {
+            "parameters": [{
+                "name": "authorization",
+                "in": "header",
+                "description": "Access token to authorize the user",
+                "required": true,
+                "type": "string"
+            }],
             "post": {
                 "tags": [
                     "Invoices"
@@ -210,11 +285,19 @@
         },
         "/invoices/{id}": {
             "parameters": [{
-                "name": "id",
-                "in": "path",
-                "description": "Id of Invoice",
-                "type": "string"
-            }],
+                    "name": "id",
+                    "in": "path",
+                    "description": "Id of Invoice",
+                    "type": "string"
+                },
+                {
+                    "name": "authorization",
+                    "in": "header",
+                    "description": "Access token to authorize the user",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
             "put": {
                 "tags": [
                     "Invoices"
@@ -341,6 +424,31 @@
             "type": "array",
             "items": {
                 "$ref": "#definitions/Client"
+            }
+        },
+        "User": {
+            "required": ["email,password"],
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "uniqueItems": "true"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "LoginResponse": {
+            "properties": {
+                "success": {
+                    "type": "boolean"
+                },
+                "token": {
+                    "type": "string"
+                }
             }
         },
         "Invoices": {

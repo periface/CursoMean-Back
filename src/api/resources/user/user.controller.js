@@ -18,7 +18,6 @@ export default {
       return res.json({
         success: true,
         message: 'User created',
-        user,
       });
     } catch (error) {
       return res.status(INTERNAL_SERVER_ERROR).json(error);
@@ -30,21 +29,35 @@ export default {
       if (error && error.details) {
         return res.status(BAD_REQUEST).json(error);
       }
-      const user = await User.findOne({ email: value.email });
-      if (!user) return res.status(BAD_REQUEST).json({ err: 'Invalid email/password' });
-      const matched = bcryptjs.compare(value.password, user.password);
+      const user = await User.findOne({
+        email: value.email,
+      });
+      if (!user)
+        return res.status(BAD_REQUEST).json({
+          err: 'Invalid email/password',
+        });
+      console.log(value.password);
+      console.log(user.password);
+      const matched = await bcryptjs.compare(value.password, user.password);
+      console.log(matched);
       if (!matched) {
-        return res.status(UNAUTHORIZED).json({ err: 'Bad credentials' });
+        return res.status(UNAUTHORIZED).json({
+          success: false,
+        });
       }
-
       const token = jwt.sign(
         {
           id: user._id,
         },
         devConfig.secret,
-        { expiresIn: '1d' }
+        {
+          expiresIn: '1d',
+        }
       );
-      return res.json({ success: true, token });
+      return res.json({
+        success: true,
+        token,
+      });
     } catch (error) {
       return res.status(INTERNAL_SERVER_ERROR).json(error);
     }
