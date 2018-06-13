@@ -13,6 +13,7 @@
       client: 'foPpCdXzTWkyPp7ljFtYfoREV',
       secret: '1TNTK38wxf8z1UWSLz1yoIv7tb3dMfLeA7glYF2AixnszcmASH',
       callback: 'http://148.237.42.44:3000/api/auth/twitter/callback',
+      userProfileURL: 'https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true',
     },
   },
 };

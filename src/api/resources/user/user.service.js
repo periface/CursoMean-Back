@@ -46,9 +46,9 @@ export default {
       resp.name = user.google.displayName;
       resp.email = user.google.email;
     }
-    if (user.twitter.username) {
+    if (user.twitter.email) {
       resp.name = user.twitter.displayName;
-      resp.email = user.twitter.username;
+      resp.email = user.twitter.email;
     }
     return resp;
   },

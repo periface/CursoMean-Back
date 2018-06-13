@@ -10,9 +10,12 @@ export const ConfigureTwitterStrategy = () => {
         consumerKey: devConfig.auth.twitter.client,
         consumerSecret: devConfig.auth.twitter.secret,
         callbackURL: devConfig.auth.twitter.callback,
+        userProfileURL: devConfig.auth.twitter.userProfileURL,
+        passReqToCallback: true,
       },
-      async (accessToken, tokenSecret, profile, done) => {
+      async (req, accessToken, tokenSecret, profile, done) => {
         try {
+          console.log(profile.emails[0].value);
           const user = await User.findOne({
             'twitter.id': profile.id,
           });
@@ -24,6 +27,7 @@ export const ConfigureTwitterStrategy = () => {
           newUser.twitter.token = accessToken;
           newUser.twitter.displayName = profile.displayName;
           newUser.twitter.username = profile.username;
+          newUser.twitter.email = profile.emails[0].value;
           await newUser.save();
           done(null, newUser);
         } catch (error) {

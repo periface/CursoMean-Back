@@ -26,6 +26,7 @@ const UserSchema = new Schema({
     id: String,
     displayName: String,
     token: String,
+    email: String,
   },
 });
 // UserSchema.pre('save', async function() {
