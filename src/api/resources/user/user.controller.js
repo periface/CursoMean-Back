@@ -5,6 +5,8 @@ import { devConfig } from '../../../config/env/development';
 
 import userService from './user.service';
 import User from './user.model';
+import { getJWTToken } from '../../modules/utils';
+import { sendEmail } from '../../modules/mail';
 
 export default {
   async signup(req, res) {
@@ -73,5 +75,46 @@ export default {
   },
   async test(req, res) {
     return res.json(req.user);
+  },
+  async forgotPassword(req, res) {
+    try {
+      const { value, error } = userService.validateForgotPasswordSchema(req.body);
+      if (error && error.details) {
+        return res.status(BAD_REQUEST).json(error);
+      }
+      const criteria = {
+        $or: [
+          {
+            'google.email': value.email,
+          },
+          {
+            'twitter.email': value.email,
+          },
+          {
+            'local.email': value.email,
+          },
+        ],
+      };
+      const user = await User.findOne(criteria);
+      if (!user) {
+        return res.status(NOT_FOUND).json({ err: 'User not found' });
+      }
+      const token = getJWTToken({ id: user._id });
+      const resetLink = `<h4>Please click on the link to reset the password</h4><a href='${
+        devConfig.frontEndUrl
+      }/reset-password/${token}'>Click</a>`;
+
+      const sanitizedUser = userService.getUser(user);
+
+      const data = await sendEmail({
+        html: resetLink,
+        subject: 'Forgot password',
+        email: sanitizedUser.email,
+      });
+
+      return res.json(data);
+    } catch (error) {
+      return res.status(INTERNAL_SERVER_ERROR).json({ err: error });
+    }
   },
 };

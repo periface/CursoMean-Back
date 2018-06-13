@@ -16,4 +16,10 @@
       userProfileURL: 'https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true',
     },
   },
+  ethereal: {
+    username: 't2hozj3xq3zqeuic@ethereal.email',
+    password: 'gF8HjAtTx2FpRwznrA',
+    host: 'smtp.ethereal.email',
+    port: 587,
+  },
 };
