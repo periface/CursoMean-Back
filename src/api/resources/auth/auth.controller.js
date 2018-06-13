@@ -16,9 +16,13 @@ export default {
     //   success: true,
     //   token,
     // });
-    res.redirect(`${devConfig.frontEndUrl}/dashboard/invoices/?token=${token}`);
+    res.redirect(`${devConfig.frontEndUrl}/dashboard/?token=${token}`);
   },
   authenticate(req, res) {
     return res.json(true);
+  },
+  logout(req, res) {
+    req.logout(); // Remove the session;
+    return res.json({ success: true });
   },
 };
