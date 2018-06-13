@@ -5,6 +5,9 @@ import bcryptjs from 'bcryptjs';
 const { Schema } = mongoose;
 const UserSchema = new Schema({
   local: {
+    name: {
+      type: String,
+    },
     email: {
       type: String,
     },

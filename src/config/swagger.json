@@ -70,7 +70,7 @@
                     "description": "User to log",
                     "required": true,
                     "schema": {
-                        "$ref": "#definitions/User"
+                        "$ref": "#definitions/UserLogin"
                     }
                 }],
                 "produces": ["application/json"],
@@ -427,6 +427,24 @@
             }
         },
         "User": {
+            "required": ["email,password,name"],
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "uniqueItems": "true"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "UserLogin": {
             "required": ["email,password"],
             "properties": {
                 "_id": {

@@ -9,7 +9,7 @@ import User from './user.model';
 export default {
   async signup(req, res) {
     try {
-      const { error, value } = userService.validateCreateSchema(req.body);
+      const { error, value } = userService.validateSignUpSchema(req.body);
       if (error && error.details) {
         return res.status(BAD_REQUEST).json(error);
       }
@@ -22,6 +22,7 @@ export default {
       const salt = await bcryptjs.genSalt();
       const hash = await bcryptjs.hash(value.password, salt);
       user.local.password = hash;
+      user.local.name = value.name;
       await user.save();
       return res.json({
         success: true,
@@ -33,7 +34,7 @@ export default {
   },
   async login(req, res) {
     try {
-      const { error, value } = userService.validateCreateSchema(req.body);
+      const { error, value } = userService.validateLoginSchema(req.body);
       if (error && error.details) {
         return res.status(BAD_REQUEST).json(error);
       }
