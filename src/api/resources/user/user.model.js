@@ -7,17 +7,19 @@ const UserSchema = new Schema({
   local: {
     email: {
       type: String,
-      required: true,
-      lowercase: true,
-      unique: true,
     },
     password: {
       type: String,
-      required: true,
     },
   },
   google: {
     email: String,
+    id: String,
+    displayName: String,
+    token: String,
+  },
+  twitter: {
+    username: String,
     id: String,
     displayName: String,
     token: String,

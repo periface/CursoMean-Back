@@ -10,6 +10,7 @@ import User from '../resources/user/user.model';
 import { configureJWTStrategy } from './passport-jwt';
 import { configureGoogleStrategy } from './passport-google';
 import { devConfig } from '../../config/env/development';
+import { ConfigureTwitterStrategy } from './passport-twitter';
 
 export const setGlobalMiddleware = app => {
   app.use(express.json());
@@ -31,6 +32,7 @@ export const setGlobalMiddleware = app => {
   app.use(passport.session());
   configureJWTStrategy();
   configureGoogleStrategy();
+  ConfigureTwitterStrategy();
   // Save user into session
   // app.use(
   //   passport.serializeUser((user, done) => {

@@ -13,6 +13,10 @@ export default {
       if (error && error.details) {
         return res.status(BAD_REQUEST).json(error);
       }
+      const existingUser = await User.findOne({ 'local.email': value.email });
+      if (existingUser) {
+        return res.status(BAD_REQUEST).json({ err: 'Account already exist...' });
+      }
       const user = await new User({});
       user.local.email = value.email;
       const salt = await bcryptjs.genSalt();
@@ -34,7 +38,7 @@ export default {
         return res.status(BAD_REQUEST).json(error);
       }
       const user = await User.findOne({
-        email: value.email,
+        'local.email': value.email,
       });
       if (!user)
         return res.status(BAD_REQUEST).json({
@@ -42,7 +46,7 @@ export default {
         });
       console.log(value.password);
       console.log(user.password);
-      const matched = await bcryptjs.compare(value.password, user.password);
+      const matched = await bcryptjs.compare(value.password, user.local.password);
       console.log(matched);
       if (!matched) {
         return res.status(UNAUTHORIZED).json({

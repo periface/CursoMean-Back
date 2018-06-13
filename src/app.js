@@ -25,6 +25,7 @@ app.use((error, req, res, next) => {
   });
 });
 
+app.get('/failure', (req, res) => res.redirect('http://localhost:4200/login'));
 app.listen(PORT, () => {
   console.log(`Server is running at PORT ${PORT}`);
 });
